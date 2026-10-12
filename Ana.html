@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#321343">
+<title>Anastacia</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100svh;color:#faedff;
+  background:radial-gradient(ellipse at top,#794b99,#321343 80%);
+  font-family:Georgia,serif;
+}
+header{
+  padding:23px;text-align:center;font-size:24px;
+  font-style:italic;border-bottom:1px solid #ffffff25;
+}
+main{max-width:660px;margin:auto;padding:35px 20px;text-align:center}
+h1{font-size:clamp(43px,11vw,76px);font-weight:normal;line-height:1.08;margin:8px 0}
+h1 em{display:block;color:#e2b8ff}
+svg{display:block;width:min(340px,100%);height:245px;margin:10px auto -15px;position:relative}
+article{
+  padding:35px 25px;background:linear-gradient(135deg,#f1ddff,#c69ee0);
+  color:#47235a;border-radius:65px 65px 20px 20px;
+  border:1px solid #f5dfff;box-shadow:0 20px 60px #14072055;
+}
+article h2{font-weight:normal;font-size:28px;margin:12px 0}
+article p{font-size:clamp(19px,4.8vw,24px);line-height:1.65;margin:0}
+.heart{font-size:30px;color:#8b49ae}
+button{
+  margin-top:25px;padding:13px 24px;min-height:46px;
+  border:1px solid #efd9ff;border-radius:30px;
+  background:#dfb9f4;color:#422054;font:14px Arial;cursor:pointer;
+}
+button:focus-visible{outline:3px solid white;outline-offset:4px}
+#status{font:12px/1.5 Arial;color:#dec3ed}
+.hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.hearts span{
+  position:absolute;bottom:-40px;color:#e0b7ff45;
+  font-size:28px;animation:up 15s linear infinite;
+}
+.hearts span:nth-child(1){left:5%;animation-delay:-3s}
+.hearts span:nth-child(2){left:90%;animation-delay:-9s}
+.hearts span:nth-child(3){left:12%;animation-delay:-12s}
+.hearts span:nth-child(4){left:80%;animation-delay:-6s}
+@keyframes up{to{transform:translateY(-115vh) rotate(30deg)}}
+@media(prefers-reduced-motion:reduce){.hearts span{animation:none}}
+</style>
+</head>
+<body>
+<div class="hearts" aria-hidden="true">
+  <span>♡</span><span>♥</span><span>♡</span><span>♥</span>
+</div>
+<header>Anastacia</header>
+<main>
+<h1>Feliz Cumpleaños <em>Zunga</em></h1>
+
+<svg viewBox="0 0 360 260" aria-hidden="true">
+<defs>
+  <linearGradient id="p" x2="1" y2="1">
+    <stop stop-color="#f0ceff"/>
+    <stop offset="1" stop-color="#9852bd"/>
+  </linearGradient>
+  <g id="t">
+    <path d="M0 0 Q-6 65 8 145"
+      fill="none" stroke="#a18aaf" stroke-width="5"/>
+    <path d="M4 110 Q-45 80 -38 40 Q0 65 4 110
+      M6 133 Q48 95 40 62 Q12 85 6 133" fill="#8c749e"/>
+    <path d="M0 10 C-32 8 -39 -18 -32 -47
+      L-13 -33 L0 -57 L15 -33 L32 -47
+      C39 -14 30 9 0 10" fill="#a263ca"/>
+    <path d="M0 10 C-22 3 -31 -25 -32 -47 Q2 -30 0 10
+      M0 10 C22 3 31 -25 32 -47 Q-2 -30 0 10" fill="url(#p)"/>
+  </g>
+</defs>
+<g transform="translate(119 100) rotate(-27)"><use href="#t"/></g>
+<g transform="translate(242 100) rotate(27)"><use href="#t"/></g>
+<g transform="translate(180 61)"><use href="#t"/></g>
+<g transform="translate(151 122) rotate(-12)"><use href="#t"/></g>
+<g transform="translate(212 122) rotate(12)"><use href="#t"/></g>
+<path d="M183 220 Q121 176 132 220 Q148 248 183 220
+  Q245 178 234 221 Q218 243 183 220"
+  fill="#dfb8f2" stroke="#f5ddff" stroke-width="2"/>
+<path d="M179 220 L157 258 L180 245 L191 259 L189 222"
+  fill="#d5a5eb"/>
+<circle cx="183" cy="220" r="7" fill="#f0d2ff"/>
+<text x="45" y="75" fill="#ddb5f6" font-size="30">♡</text>
+<text x="295" y="150" fill="#ddb5f6" font-size="25">♥</text>
+</svg>
+
+<article>
+  <div class="heart" aria-hidden="true">♡</div>
+  <h2>Ana María Feliz cumpleaños,</h2>
+  <p>espero su día haya sido lo suficientemente espacial así
+  como usted en mi vida, muchas gracias por todo y a su mamá
+  por parirla</p>
+</article>
+
+<audio id="song" src="musica.mp3" autoplay loop preload="auto"></audio>
+<button id="music" type="button">♫ Activar música</button>
+<p id="status" role="status"></p>
+</main>
+<script>
+const song=document.getElementById("song");
+const button=document.getElementById("music");
+const statusText=document.getElementById("status");
+let touched=false;
+song.volume=0.65;
+
+async function start(){
+  try{
+    await song.play();
+    statusText.textContent="";
+  }catch{
+    statusText.textContent=song.error
+      ? "Falta el archivo musica.mp3 junto al HTML."
+      : "Toque la pantalla para escuchar la música.";
+  }
+}
+
+document.addEventListener("pointerdown",event=>{
+  if(touched || event.target.closest("button")) return;
+  touched=true;
+  start();
+});
+
+button.addEventListener("click",()=>{
+  touched=true;
+  if(song.paused) start();
+  else song.pause();
+});
+
+song.addEventListener("play",()=>{
+  button.textContent="Ⅱ Pausar música";
+  statusText.textContent="";
+});
+song.addEventListener("pause",()=>{
+  button.textContent="♫ Activar música";
+});
+song.addEventListener("error",()=>{
+  statusText.textContent="Falta el archivo musica.mp3 junto al HTML.";
+});
+start();
+</script>
+</body>
+</html>
